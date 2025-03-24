@@ -63,7 +63,7 @@
             }
         }
 
-        
+        // Récuperation 
         async function fetchTasks() {
             setLoading(true);
             try {
@@ -79,7 +79,7 @@
             }
         }
 
-
+// ajouter une tâche
 async function addTask(title, datefin) {
     if (!title) {
         showErrorMessage('Veuillez saisir un titre pour la tâche');
@@ -111,6 +111,7 @@ async function addTask(title, datefin) {
         setLoading(false);
     }
 }
+// Gestion des priorités
         function formatDate(dateStr) {
             if (!dateStr) return 'Pas de date';
             
@@ -269,7 +270,7 @@ async function addTask(title, datefin) {
             }, 10);
         }
 
-
+        // Tâches terminées
         async function completeTask(id) {
             setLoading(true);
             try {
@@ -303,7 +304,7 @@ async function addTask(title, datefin) {
             }
         }
 
-
+        // Réstorer la tâche
         async function restoreTask(id) {
             setLoading(true);
             try {
@@ -329,7 +330,7 @@ async function addTask(title, datefin) {
             }
         }
 
-
+        // Supprimer la tâche 
         async function deleteTask(id) {
             if (!confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')) {
                 return;
@@ -362,7 +363,7 @@ async function addTask(title, datefin) {
             }
         }
 
-
+        // Supprimer LES tâches
         async function clearCompletedTasks() {
             if (!confirm('Êtes-vous sûr de vouloir supprimer toutes les tâches terminées ?')) {
                 return;
