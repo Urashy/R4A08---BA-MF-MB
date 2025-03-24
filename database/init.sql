@@ -5,18 +5,20 @@ CREATE TABLE tasks (
     datefin TIMESTAMP DEFAULT NULL
 );
 
-INSERT INTO tasks (title, completed) VALUES ('Faire le ménage', false);
-INSERT INTO tasks (title, completed) VALUES ('Créer la base de données', true);
-INSERT INTO tasks (title, completed) VALUES ('Acheter des chips chèvre piment d''Espelette', false);
-INSERT INTO tasks (title, completed) VALUES ('Appeler ma mère', false);
-INSERT INTO tasks (title, completed) VALUES ('Préparer le Iftar', false);
-INSERT INTO tasks (title, completed) VALUES ('Finir les contrôleurs de la SAE', false);
-INSERT INTO tasks (title, completed) VALUES ('Ranger ma chambre', false);
-INSERT INTO tasks (title, completed) VALUES ('Faire la vaisselle', false);
-INSERT INTO tasks (title, completed) VALUES ('Arrêter le Redbull dès 8h du matin', false);
-INSERT INTO tasks (title, completed) VALUES ('Trouver un stage', false);
-INSERT INTO tasks (title, completed) VALUES ('Répondre à mes mails', false);
-INSERT INTO tasks (title, completed) VALUES ('Acheter une oie sur Amazon', false);
-INSERT INTO tasks (title, completed) VALUES ('J en ai aucune idée (Berkan)', false);
-INSERT INTO tasks (title, completed) VALUES ('Préparer les vacances', false);
-INSERT INTO tasks (title, completed) VALUES ('Gadget éméri', false);
+INSERT INTO tasks (title, completed, datefin) 
+VALUES 
+    ('Faire le ménage', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Créer la base de données', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Acheter des chips chèvre piment d''Espelette', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Appeler ma mère', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Préparer le Iftar', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Finir les contrôleurs de la SAE', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Ranger ma chambre', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Faire la vaisselle', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Arrêter le Redbull dès 8h du matin', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Trouver un stage', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Répondre à mes mails', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Acheter une oie sur Amazon', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('J en ai aucune idée (Berkan)', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Préparer les vacances', false, NOW() + INTERVAL 'random() * 65 - 5 days'),
+    ('Gadget éméri', false, NOW() + INTERVAL 'random() * 65 - 5 days');
