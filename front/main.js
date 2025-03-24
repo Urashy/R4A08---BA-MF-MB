@@ -11,17 +11,17 @@
         let isLoading = false;
         let tasks = [];
 
-        // Initialisation
+
         document.addEventListener('DOMContentLoaded', () => {
             fetchTasks();
             setMinDate();
             loadTheme();
             
-            // Ajouter la date d'aujourd'hui par défaut
+
             const today = new Date().toISOString().split('T')[0];
             newDateInput.value = today;
             
-            // Événements
+
             themeToggleBtn.addEventListener('click', toggleTheme);
             addTodoBtn.addEventListener('click', () => {
                 const title = newTodoInput.value.trim();
@@ -34,13 +34,13 @@
             clearCompletedBtn.addEventListener('click', clearCompletedTasks);
         });
 
-        // Définir la date minimum au jour actuel
+
         function setMinDate() {
             const today = new Date().toISOString().split('T')[0];
             newDateInput.min = today;
         }
 
-        // Charger le thème
+
         function loadTheme() {
             const darkMode = localStorage.getItem('darkMode') === 'true';
             if (darkMode) {
@@ -49,7 +49,7 @@
             }
         }
 
-        // Basculer entre les thèmes clair et sombre
+
         function toggleTheme() {
             const isDarkMode = document.body.classList.toggle('dark-theme');
             localStorage.setItem('darkMode', isDarkMode);
@@ -61,7 +61,6 @@
             }
         }
 
-        // Récupérer les tâches depuis l'API
         async function fetchTasks() {
             setLoading(true);
             try {
@@ -77,8 +76,7 @@
             }
         }
 
-        // Ajouter une nouvelle tâche
-        // Ajouter une nouvelle tâche
+
 async function addTask(title, datefin) {
     if (!title) {
         showErrorMessage('Veuillez saisir un titre pour la tâche');
@@ -95,23 +93,12 @@ async function addTask(title, datefin) {
 
         if (!response.ok) throw new Error('Erreur lors de l\'ajout de la tâche');
 
-        // Au lieu de juste ajouter la nouvelle tâche, récupérez toutes les tâches
-        // pour bénéficier du tri fait par l'API
+
         await fetchTasks(); 
         
-        // Ou si vous préférez, vous pouvez ajouter et trier localement :
-        // const newTask = await response.json();
-        // tasks.push(newTask);
-        // tasks.sort((a, b) => {
-        //     if (!a.datefin) return 1;
-        //     if (!b.datefin) return -1;
-        //     return new Date(a.datefin) - new Date(b.datefin);
-        // });
-        // renderTasks(tasks);
+
         
         newTodoInput.value = '';
-        
-        // Ajouter à nouveau la date d'aujourd'hui comme valeur par défaut
         const today = new Date().toISOString().split('T')[0];
         newDateInput.value = today;
     } catch (error) {
@@ -121,8 +108,6 @@ async function addTask(title, datefin) {
         setLoading(false);
     }
 }
-
-        // Formatter la date pour l'affichage
         function formatDate(dateStr) {
             if (!dateStr) return 'Pas de date';
             
@@ -153,7 +138,7 @@ async function addTask(title, datefin) {
             }
         }
 
-        // Calculer le nombre de jours restants
+
         function getDaysRemaining(dateStr) {
             if (!dateStr) return null;
             
@@ -169,7 +154,7 @@ async function addTask(title, datefin) {
             return diffDays;
         }
 
-        // Déterminer la classe de priorité en fonction de la date
+
         function getPriorityClass(dateStr) {
             if (!dateStr) return '';
             
@@ -188,7 +173,7 @@ async function addTask(title, datefin) {
             }
         }
 
-        // Afficher les tâches dans le DOM
+
         function renderTasks(tasks) {
             todoList.innerHTML = '';
             didList.innerHTML = '';
@@ -228,7 +213,7 @@ async function addTask(title, datefin) {
             clearCompletedBtn.style.display = completedItems.length > 0 ? 'block' : 'none';
         }
 
-        // Ajouter une tâche au DOM
+
         function addTaskToDOM(task) {
             const li = document.createElement('li');
             li.classList.add(task.completed ? 'did-item' : 'todo-item');
@@ -281,7 +266,7 @@ async function addTask(title, datefin) {
             }, 10);
         }
 
-        // Marquer une tâche comme terminée
+
         async function completeTask(id) {
             setLoading(true);
             try {
@@ -315,7 +300,7 @@ async function addTask(title, datefin) {
             }
         }
 
-        // Restaurer une tâche
+
         async function restoreTask(id) {
             setLoading(true);
             try {
@@ -341,7 +326,7 @@ async function addTask(title, datefin) {
             }
         }
 
-        // Supprimer une tâche
+
         async function deleteTask(id) {
             if (!confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')) {
                 return;
@@ -374,7 +359,7 @@ async function addTask(title, datefin) {
             }
         }
 
-        // Effacer toutes les tâches terminées
+
         async function clearCompletedTasks() {
             if (!confirm('Êtes-vous sûr de vouloir supprimer toutes les tâches terminées ?')) {
                 return;
@@ -401,13 +386,13 @@ async function addTask(title, datefin) {
             }
         }
 
-        // Afficher un message d'erreur
+
         function showErrorMessage(message) {
             alert(message);
         }
 
-        // Définir l'état de chargement
+
         function setLoading(loading) {
             isLoading = loading;
-            // Vous pouvez ajouter un indicateur de chargement ici si nécessaire
+
         }

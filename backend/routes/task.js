@@ -4,8 +4,6 @@ const pool = require('../config.js');
 
 router.get('/tasks', async (req, res) => {
     try {
-        // Cette requête trie d'abord par statut de complétion (tâches non complétées en premier)
-        // Puis par date d'échéance (du plus urgent au moins urgent)
         const result = await pool.query(`
             SELECT * FROM tasks 
             ORDER BY 
@@ -37,7 +35,6 @@ router.get('/tasks/:id', async (req, res) => {
     }
 });
 
-// Ajouter une tâche avec gestion conditionnelle de datefin
 router.post('/tasks', async (req, res) => {
     try {
         const { title, datefin } = req.body;
