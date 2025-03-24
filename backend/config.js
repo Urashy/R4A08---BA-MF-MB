@@ -25,7 +25,7 @@ app.use(cors());
 module.exports = pool;
 
 // Définir le chemin absolu vers le dossier "front"
-const frontPath = path.resolve(__dirname, './front');
+const frontPath = path.resolve(__dirname,'./front');
 
 console.log("📁 Chemin du front :", frontPath);
 
@@ -42,7 +42,7 @@ app.get('*', (req, res) => {
 });
 
 // Lancer le serveur
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
 });
