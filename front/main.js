@@ -1,16 +1,13 @@
 
 const API_URL = 'http://localhost:3001/api';
 
-// Éléments DOM
 const todoList = document.querySelector('.todo-list');
 const didList = document.querySelector('.did-list');
 const newTodoInput = document.getElementById('new-todo');
 const addTodoBtn = document.getElementById('add-todo-btn');
 
-// État de chargement initial
 let isLoading = false;
 
-// Fonctions pour interagir avec l'API
 async function fetchTasks() {
     setLoading(true);
     try {
@@ -59,7 +56,8 @@ async function addTask(title) {
 async function completeTask(id) {
     setLoading(true);
     try {
-        const response = await fetch(`${API_URL}/tasks/${id}/complete`, {
+
+        const response = await fetch(`${API_URL}/tasks/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -70,7 +68,9 @@ async function completeTask(id) {
             throw new Error('Erreur lors de la mise à jour de la tâche');
         }
         
-        await fetchTasks(); // Recharger toutes les tâches pour mettre à jour l'UI
+        const updatedTask = await response.json();
+        
+        moveTaskToCompleted(id, updatedTask);
     } catch (error) {
         console.error('Erreur:', error);
         showError('Impossible de mettre à jour la tâche');
@@ -90,7 +90,7 @@ async function deleteTask(id) {
             throw new Error('Erreur lors de la suppression de la tâche');
         }
         
-        await fetchTasks(); // Recharger toutes les tâches pour mettre à jour l'UI
+        removeTaskFromDOM(id);
     } catch (error) {
         console.error('Erreur:', error);
         showError('Impossible de supprimer la tâche');
@@ -99,9 +99,8 @@ async function deleteTask(id) {
     }
 }
 
-// Fonctions de rendu de l'interface
 function renderTasks(tasks) {
-    // Vider les listes actuelles
+
     todoList.innerHTML = '';
     didList.innerHTML = '';
     
@@ -130,7 +129,6 @@ function addTaskToDOM(task) {
         todoList.appendChild(li);
     }
     
-    // Ajouter les event listeners aux boutons
     if (!task.completed) {
         li.querySelector('.complete-btn').addEventListener('click', () => {
             completeTask(task.id);
@@ -142,6 +140,37 @@ function addTaskToDOM(task) {
     });
 }
 
+function moveTaskToCompleted(id, updatedTask) {
+
+    const taskElement = document.querySelector(`.todo-item[data-id="${id}"]`);
+    
+    if (taskElement) {
+
+        taskElement.remove();
+        
+        const completedItem = document.createElement('li');
+        completedItem.classList.add('did-item');
+        completedItem.dataset.id = id;
+        
+        completedItem.innerHTML = `
+            <span class="todo-title">${updatedTask.title}</span>
+            <button class="action-btn delete-btn">×</button>
+        `;
+        
+        didList.appendChild(completedItem);
+        completedItem.querySelector('.delete-btn').addEventListener('click', () => {
+            deleteTask(id);
+        });
+    }
+}
+
+function removeTaskFromDOM(id) {
+    const taskElement = document.querySelector(`li[data-id="${id}"]`);
+    if (taskElement) {
+        taskElement.remove();
+    }
+}
+
 function setLoading(loading) {
     isLoading = loading;
     addTodoBtn.disabled = loading;
@@ -151,7 +180,8 @@ function setLoading(loading) {
         loadingEl.className = 'loading';
         loadingEl.textContent = 'Chargement...';
         
-        todoList.parentNode.insertBefore(loadingEl, todoList);
+        const formContainer = document.querySelector('.form-container');
+        formContainer.after(loadingEl);
     } else {
         const loadingEl = document.querySelector('.loading');
         if (loadingEl) {
@@ -164,7 +194,6 @@ function showError(message) {
     alert(message);
 }
 
-// Event listeners
 addTodoBtn.addEventListener('click', () => {
     const title = newTodoInput.value.trim();
     if (title) {
@@ -180,7 +209,6 @@ newTodoInput.addEventListener('keypress', (e) => {
         }
     }
 });
-
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchTasks();
