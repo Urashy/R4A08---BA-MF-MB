@@ -1,117 +1,84 @@
-------------------------------------------------------
-|  Projet d'application de gestion de tâche à faire  |
-------------------------------------------------------
+# Projet d'Application de Gestion de Tâches à Faire
 
+## Réalisé par :
+- **Berkan AKIN**
+- **Mathis FRAPPIN**
+- **Mano BERTHET**
 
-réalisé par :
-► Berkan AKIN    ◄ 
-► Mathis FRAPPIN ◄
-► Mano BERTHET   ◄
+---
 
+## Lancement de l'Application
 
---------------------------------
-|  Lancement de l'application  |
---------------------------------
+### Avec Visual Studio
+1. **Clonez le dépôt** dans le dossier souhaité :  
+   ```bash
+   git clone https://github.com/Urashy/R4A08---BA-MF-MB.git
+   ```
+2. **Ouvrez le terminal** de Visual Studio :  
+   - Menu supérieur → "Terminal" → "New Terminal"
+3. **Déplacez-vous dans le dossier du projet** :  
+   ```bash
+   cd R4A08---BA-MF-MB
+   ```
+4. **Lancez l'application** :  
+   ```bash
+   docker compose up -d
+   ```
+5. **Accédez à l'application** :  
+   Ouvrez votre navigateur et allez sur **[http://localhost:3001/](http://localhost:3001/)**
 
-→ Avec Visual studio.
+### Sans Visual Studio
+1. **Ouvrez une invite de commande** et déplacez-vous dans le dossier souhaité.
+2. **Clonez le dépôt** :  
+   ```bash
+   git clone https://github.com/Urashy/R4A08---BA-MF-MB.git
+   ```
+3. **Déplacez-vous dans le dossier** :  
+   ```bash
+   cd R4A08---BA-MF-MB
+   ```
+4. **Lancez l'application** :  
+   ```bash
+   docker compose up -d
+   ```
+5. **Accédez à l'application** :  
+   Ouvrez votre navigateur et allez sur **[http://localhost:3001/](http://localhost:3001/)**
 
-    -Clonez le dépôt dans le dossier souhaité
-        -Lien du GitHub : https://github.com/Urashy/R4A08---BA-MF-MB.git
+---
 
-    -Ouvrez le terminal de commande à partir de la barre des menus (en haut à gauche de l'application, entre "Run" et "Help") :
-        - Terminal → New Terminal et placez-vous dans le dossier souhaité.
+## Description de l'Application
 
-    -Entrez cette commande dans la console apparue (en bas de l'application) :
-        docker compose up -d
+### Technologies utilisées :
+- **Frontend** : HTML, CSS, JavaScript
+- **Backend** : Node.js, Docker
+- **Base de données** : PostgreSQL
 
-    \o/ C'est bon, votre application est lancée !! \o/
+### Fonctionnalités principales :
 
-    -Pour y accéder, copiez-collez ce lien dans votre navigateur  : http://localhost:3001/
+#### 1. Ajout de tâches
+- Utilisez le champ **"Ajouter une nouvelle tâche"**.
+- Entrez un titre et une date butoir (**jj/mm/yyyy** ou via un calendrier).
+- Cliquez sur **"Ajouter"** pour enregistrer la tâche dans la liste.
 
+#### 2. Validation ou suppression de tâches
+- **Validation** : Cliquez sur le bouton ✅ pour déplacer la tâche en **"Terminé"**.
+  - Une tâche validée peut être remise en "À faire" grâce au bouton ↩.
+- **Suppression** : Cliquez sur le bouton ❌ pour supprimer une tâche.
 
+#### Autres fonctionnalités
+- **Suppression de toutes les tâches terminées** :
+  - Un bouton sous forme de barre rouge permet de vider la liste des tâches terminées après confirmation.
+- **Système de code couleur** :
+  - 🟢 Bordure verte : plus de 7 jours restants.
+  - 🟠 Bordure orange : moins de 7 jours restants.
+  - 🔴 Bordure rouge : moins de 2 jours restants.
+  - 🟣 Bordure violette : échéance aujourd'hui.
+  - ❌ Case rouge complète : échéance dépassée.
+- **Compteur de tâches** :
+  - Chaque liste affiche un compteur du nombre de tâches.
+- **Mode sombre 🌙** :
+  - Activez/Désactivez le mode sombre avec le bouton en haut à droite de la page.
 
-→ Sans Visual studio.
+---
 
-
-    -Ouvrez une invite de commande et déplacez-vous dans le dossier souhaité.
-
-    -Clonez le dépôt :
-         git clone https://github.com/Urashy/R4A08---BA-MF-MB.git
-
-    -Déplacez-vous dedans :
-        cd R4A08---BA-MF-MB
-
-    -Lancez l'application :
-        docker compose up -d
-
-    \o/ C'est bon, votre application est lancée !! \o/
-
-    -Pour y accéder, copiez-collez ce lien dans votre navigateur  : http://localhost:3001/
-
-
----------------------------------
-|  Descriptif de l'application  |
----------------------------------
-
-  |
-  |-----------------------
-  |  Frontend :        |
-  |      HTML CSS JS   |
-  |  Backend :         |
-  |      Docker        |
-  |  Base de donnée :  |
-  |      Postgres SQL  |
-  |  + NodeJs          |
------------------------|
-                       |
-
-L'application a 2 principales fonctions :
-
-
-1. L'ajout de tâches a faire            |
-----------------------------------------|
-
-    À l'aide du champ "Ajouter une nouvelle tâche", vous pouvez entrer le titre de la tâche que vous devez faire ainsi que la date butoir (sois en jj/mm/yyyy ou avec un calendrier).
-    Une fois qu'elle vous convient, il suffit de cliquer sur le bouton "Ajouter" et la tâche apparaîtra dans la liste des tâches à faire.
-
-
-
-2. Validation ou suppression de tâches  |
-----------------------------------------|
-
-   → Validation d'une tâche
-        À l'aide du bouton vert à côté de votre tâche, vous pouvez valider votre tâche.
-        Elle passera donc dans la colonne "Terminé".
-
-        /!\ Si vous vous êtes trompé, vous pouvez toujours remettre la tâche en "A faire" à l'aide du bouton : "↩" /!\
-
-    → Suppression d'une tâche
-        À l'aide du bouton rouge à côté de votre tâche, vous pouvez supprimer votre tâche.
-
-    
-3. Autres fonctions                     |
-----------------------------------------|
-
-    → Suppression de toutes les tâches
-        Lorsque vous avez beaucoup de tâches términées, à l'aide du bouton rouge sous forme de barre en dessous de la liste "Terminé", vous pouvez supprimer toutes ces tâches.
-        Appuyez sur ce bouton, la page vous demandera "Êtes-vous sûr de vouloir supprimer toutes les tâches terminées ?".
-        Cliquez sur "OK" et vos tâches seront supprimées.
-
-    → Système de code couleur
-        Nous avons fait en sorte que l'affichage de chaque tâche soit accompagné d'une couleur en fonction de sa date.
-            - Bordure verte si la date butoir est dans plus de 7 jours.
-            - Bordure orange si la date butoir est dans moins de 7 jours.
-            - Bordure rouge si la date butoir est dans moins de 2 jours.
-            - Bordure violette si la date butoir est aujourd'hui.
-            - Case totalement rouge si la date butoir a déja été dépassée.
-
-    → Système de compteur
-        Au-dessus de chaque liste se trouve un petit compteur placé dans une bulle. 
-        Il renvoie le nombre de tâches présentes dans chacune des listes.
-
-    → Mode Sombre
-        Nous avons également rajouté un mode sombre pour le comfort de nos utilisateurs.
-        Pour activer / désactiver ce dernier il vous suffit de cliquer sur le bouton , prévu à cet effet, en haut à droite de la page.
-
-    
-
+**L'application est maintenant prête à l'emploi !**
