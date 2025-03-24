@@ -1,5 +1,5 @@
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = 'http://localhost:3003/api';
 
 // Éléments DOM
 const todoList = document.querySelector('.todo-list');
@@ -24,7 +24,7 @@ async function fetchTasks() {
         renderTasks(tasks);
     } catch (error) {
         console.error('Erreur:', error);
-        showError('Impossible de charger les tâches');
+        showError('Impossible de charger les tâches' );
     } finally {
         setLoading(false);
     }
