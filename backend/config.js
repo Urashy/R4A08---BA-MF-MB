@@ -1,5 +1,11 @@
 const { Pool } = require('pg');
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
 
+const app = express();
+
+// Configuration de la base de données
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'postgres',
@@ -9,23 +15,34 @@ const pool = new Pool({
 });
 
 pool.connect()
-  .then(() => console.log("Connecté à PostgreSQL"))
+  .then(() => console.log("✅ Connecté à PostgreSQL"))
   .catch(err => console.error("❌ Erreur de connexion :", err));
-
-module.exports = pool;
-
-const express = require('express');
-const app = express();
-const tasksRoutes = require('./routes/task');
-const cors = require('cors');
 
 app.use(express.json());
 app.use(cors());
 
-// Routes
+// Exporter `pool`
+module.exports = pool;
+
+// Définir le chemin absolu vers le dossier "front"
+const frontPath = path.resolve(__dirname, './front');
+
+console.log("📁 Chemin du front :", frontPath);
+
+// Servir les fichiers statiques du dossier "front"
+app.use(express.static(frontPath));
+
+// Routes API
+const tasksRoutes = require('./routes/task'); 
 app.use('/api', tasksRoutes);
 
-const PORT = process.env.PORT || 3000;
+// Rediriger toutes les requêtes vers index.html (sauf les API)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(frontPath, 'index.html'));
+});
+
+// Lancer le serveur
+const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
-    console.log(`Serveur lancé sur http://localhost:${PORT}`);
+    console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
 });
