@@ -21,27 +21,22 @@ pool.connect()
 app.use(express.json());
 app.use(cors());
 
-// Exporter `pool`
 module.exports = pool;
 
-// Définir le chemin absolu vers le dossier "front"
+// Définir le chemin vers front
 const frontPath = path.resolve(__dirname,'./front');
 
 console.log("Chemin du front :", frontPath);
-
-// Servir les fichiers statiques du dossier "front"
 app.use(express.static(frontPath));
-
-// Routes API
 const tasksRoutes = require('./routes/task'); 
 app.use('/api', tasksRoutes);
 
-// Rediriger toutes les requêtes vers index.html (sauf les API)
+// Redirige vers index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(frontPath, 'index.html'));
 });
 
-// Lancer le serveur
+//Run
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur http://localhost:${PORT}`);
