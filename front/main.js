@@ -1,215 +1,413 @@
+        const API_URL = 'http://localhost:3001/api';
 
-const API_URL = 'http://localhost:3001/api';
+        const todoList = document.querySelector('.todo-list');
+        const didList = document.querySelector('.did-list');
+        const newTodoInput = document.getElementById('new-todo');
+        const newDateInput = document.getElementById('new-date');
+        const addTodoBtn = document.getElementById('add-todo-btn');
+        const clearCompletedBtn = document.getElementById('clear-completed-btn');
+        const themeToggleBtn = document.getElementById('theme-toggle');
 
-const todoList = document.querySelector('.todo-list');
-const didList = document.querySelector('.did-list');
-const newTodoInput = document.getElementById('new-todo');
-const addTodoBtn = document.getElementById('add-todo-btn');
+        let isLoading = false;
+        let tasks = [];
 
-let isLoading = false;
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTasks();
+            setMinDate();
+            loadTheme();
+            
+            // Ajouter la date d'aujourd'hui par défaut
+            const today = new Date().toISOString().split('T')[0];
+            newDateInput.value = today;
+            
+            // Événements
+            themeToggleBtn.addEventListener('click', toggleTheme);
+            addTodoBtn.addEventListener('click', () => {
+                const title = newTodoInput.value.trim();
+                const datefin = newDateInput.value ? new Date(newDateInput.value).toISOString() : null;
+                addTask(title, datefin);
+            });
+            newTodoInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addTodoBtn.click();
+            });
+            clearCompletedBtn.addEventListener('click', clearCompletedTasks);
+        });
 
-async function fetchTasks() {
-    setLoading(true);
-    try {
-        const response = await fetch(`${API_URL}/tasks`);
-        
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des tâches');
+        // Définir la date minimum au jour actuel
+        function setMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            newDateInput.min = today;
         }
-        
-        const tasks = await response.json();
-        renderTasks(tasks);
-    } catch (error) {
-        console.error('Erreur:', error);
-        showError('Impossible de charger les tâches' );
-    } finally {
-        setLoading(false);
-    }
-}
 
-async function addTask(title) {
+        // Charger le thème
+        function loadTheme() {
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-theme');
+                themeToggleBtn.innerHTML = '<span class="icon">☀️</span> Mode clair';
+            }
+        }
+
+        // Basculer entre les thèmes clair et sombre
+        function toggleTheme() {
+            const isDarkMode = document.body.classList.toggle('dark-theme');
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            if (isDarkMode) {
+                themeToggleBtn.innerHTML = '<span class="icon">☀️</span> Mode clair';
+            } else {
+                themeToggleBtn.innerHTML = '<span class="icon">🌙</span> Mode sombre';
+            }
+        }
+
+        // Récupérer les tâches depuis l'API
+        async function fetchTasks() {
+            setLoading(true);
+            try {
+                const response = await fetch(`${API_URL}/tasks`);
+                if (!response.ok) throw new Error('Erreur lors de la récupération des tâches');
+                tasks = await response.json();
+                renderTasks(tasks);
+            } catch (error) {
+                console.error('Erreur:', error);
+                showErrorMessage('Impossible de charger les tâches');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Ajouter une nouvelle tâche
+        // Ajouter une nouvelle tâche
+async function addTask(title, datefin) {
+    if (!title) {
+        showErrorMessage('Veuillez saisir un titre pour la tâche');
+        return;
+    }
+    
     setLoading(true);
     try {
         const response = await fetch(`${API_URL}/tasks`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ title })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, datefin })
         });
+
+        if (!response.ok) throw new Error('Erreur lors de l\'ajout de la tâche');
+
+        // Au lieu de juste ajouter la nouvelle tâche, récupérez toutes les tâches
+        // pour bénéficier du tri fait par l'API
+        await fetchTasks(); 
         
-        if (!response.ok) {
-            throw new Error('Erreur lors de l\'ajout de la tâche');
-        }
+        // Ou si vous préférez, vous pouvez ajouter et trier localement :
+        // const newTask = await response.json();
+        // tasks.push(newTask);
+        // tasks.sort((a, b) => {
+        //     if (!a.datefin) return 1;
+        //     if (!b.datefin) return -1;
+        //     return new Date(a.datefin) - new Date(b.datefin);
+        // });
+        // renderTasks(tasks);
         
-        const newTask = await response.json();
-        addTaskToDOM(newTask);
         newTodoInput.value = '';
+        
+        // Ajouter à nouveau la date d'aujourd'hui comme valeur par défaut
+        const today = new Date().toISOString().split('T')[0];
+        newDateInput.value = today;
     } catch (error) {
         console.error('Erreur:', error);
-        showError('Impossible d\'ajouter la tâche');
+        showErrorMessage('Impossible d\'ajouter la tâche');
     } finally {
         setLoading(false);
     }
 }
 
-async function completeTask(id) {
-    setLoading(true);
-    try {
-
-        const response = await fetch(`${API_URL}/tasks/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
+        // Formatter la date pour l'affichage
+        function formatDate(dateStr) {
+            if (!dateStr) return 'Pas de date';
+            
+            const date = new Date(dateStr);
+            
+            if (isNaN(date.getTime())) {
+                return 'Date invalide';
             }
-        });
-        
-        if (!response.ok) {
-            throw new Error('Erreur lors de la mise à jour de la tâche');
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const nextWeek = new Date(today);
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            
+            if (date.getTime() === today.getTime()) {
+                return 'Aujourd\'hui';
+            } else if (date.getTime() === tomorrow.getTime()) {
+                return 'Demain';
+            } else if (date < nextWeek) {
+                const options = { weekday: 'long' };
+                return date.toLocaleDateString('fr-FR', options);
+            } else {
+                return date.toLocaleDateString('fr-FR');
+            }
         }
-        
-        const updatedTask = await response.json();
-        
-        moveTaskToCompleted(id, updatedTask);
-    } catch (error) {
-        console.error('Erreur:', error);
-        showError('Impossible de mettre à jour la tâche');
-    } finally {
-        setLoading(false);
-    }
-}
 
-async function deleteTask(id) {
-    setLoading(true);
-    try {
-        const response = await fetch(`${API_URL}/tasks/${id}`, {
-            method: 'DELETE'
-        });
-        
-        if (!response.ok) {
-            throw new Error('Erreur lors de la suppression de la tâche');
+        // Calculer le nombre de jours restants
+        function getDaysRemaining(dateStr) {
+            if (!dateStr) return null;
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const date = new Date(dateStr);
+            date.setHours(0, 0, 0, 0);
+            
+            const diffTime = date - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            return diffDays;
         }
-        
-        removeTaskFromDOM(id);
-    } catch (error) {
-        console.error('Erreur:', error);
-        showError('Impossible de supprimer la tâche');
-    } finally {
-        setLoading(false);
-    }
-}
 
-function renderTasks(tasks) {
-
-    todoList.innerHTML = '';
-    didList.innerHTML = '';
-    
-    tasks.forEach(task => {
-        addTaskToDOM(task);
-    });
-}
-
-function addTaskToDOM(task) {
-    const li = document.createElement('li');
-    li.classList.add(task.completed ? 'did-item' : 'todo-item');
-    li.dataset.id = task.id;
-    
-    li.innerHTML = `
-        <span class="todo-title">${task.title}</span>
-        ${task.completed 
-            ? ''
-            : `<button class="action-btn complete-btn">✓</button>`
+        // Déterminer la classe de priorité en fonction de la date
+        function getPriorityClass(dateStr) {
+            if (!dateStr) return '';
+            
+            const daysRemaining = getDaysRemaining(dateStr);
+            
+            if (daysRemaining < 0) {
+                return 'priority-overdue';
+            } else if (daysRemaining === 0) {
+                return 'priority-today';
+            } else if (daysRemaining <= 2) {
+                return 'priority-high';
+            } else if (daysRemaining <= 7) {
+                return 'priority-medium';
+            } else {
+                return 'priority-low';
+            }
         }
-        <button class="action-btn delete-btn">×</button>
-    `;
-    
-    if (task.completed) {
-        didList.appendChild(li);
-    } else {
-        todoList.appendChild(li);
-    }
-    
-    if (!task.completed) {
-        li.querySelector('.complete-btn').addEventListener('click', () => {
-            completeTask(task.id);
-        });
-    }
-    
-    li.querySelector('.delete-btn').addEventListener('click', () => {
-        deleteTask(task.id);
-    });
-}
 
-function moveTaskToCompleted(id, updatedTask) {
+        // Afficher les tâches dans le DOM
+        function renderTasks(tasks) {
+            todoList.innerHTML = '';
+            didList.innerHTML = '';
+            
+            const todoItems = tasks.filter(task => !task.completed);
+            const completedItems = tasks.filter(task => task.completed);
+            
+            document.getElementById('todo-count').textContent = todoItems.length;
+            document.getElementById('completed-count').textContent = completedItems.length;
 
-    const taskElement = document.querySelector(`.todo-item[data-id="${id}"]`);
-    
-    if (taskElement) {
+            if (tasks.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'empty-message';
+                emptyMessage.textContent = 'Aucune tâche pour le moment';
+                todoList.appendChild(emptyMessage);
+                return;
+            }
 
-        taskElement.remove();
-        
-        const completedItem = document.createElement('li');
-        completedItem.classList.add('did-item');
-        completedItem.dataset.id = id;
-        
-        completedItem.innerHTML = `
-            <span class="todo-title">${updatedTask.title}</span>
-            <button class="action-btn delete-btn">×</button>
-        `;
-        
-        didList.appendChild(completedItem);
-        completedItem.querySelector('.delete-btn').addEventListener('click', () => {
-            deleteTask(id);
-        });
-    }
-}
-
-function removeTaskFromDOM(id) {
-    const taskElement = document.querySelector(`li[data-id="${id}"]`);
-    if (taskElement) {
-        taskElement.remove();
-    }
-}
-
-function setLoading(loading) {
-    isLoading = loading;
-    addTodoBtn.disabled = loading;
-    
-    if (loading) {
-        const loadingEl = document.createElement('div');
-        loadingEl.className = 'loading';
-        loadingEl.textContent = 'Chargement...';
-        
-        const formContainer = document.querySelector('.form-container');
-        formContainer.after(loadingEl);
-    } else {
-        const loadingEl = document.querySelector('.loading');
-        if (loadingEl) {
-            loadingEl.remove();
+            if (todoItems.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'empty-message';
+                emptyMessage.textContent = 'Toutes les tâches sont terminées !';
+                todoList.appendChild(emptyMessage);
+            } else {
+                todoItems.forEach(task => addTaskToDOM(task));
+            }
+            
+            if (completedItems.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'empty-message';
+                emptyMessage.textContent = 'Aucune tâche terminée';
+                didList.appendChild(emptyMessage);
+            } else {
+                completedItems.forEach(task => addTaskToDOM(task));
+            }
+            
+            clearCompletedBtn.style.display = completedItems.length > 0 ? 'block' : 'none';
         }
-    }
-}
 
-function showError(message) {
-    alert(message);
-}
+        // Ajouter une tâche au DOM
+        function addTaskToDOM(task) {
+            const li = document.createElement('li');
+            li.classList.add(task.completed ? 'did-item' : 'todo-item');
+            li.dataset.id = task.id;
+            
+            const priorityClass = getPriorityClass(task.datefin);
+            if (priorityClass && !task.completed) {
+                li.classList.add(priorityClass);
+            }
 
-addTodoBtn.addEventListener('click', () => {
-    const title = newTodoInput.value.trim();
-    if (title) {
-        addTask(title);
-    }
-});
+            const formattedDate = formatDate(task.datefin);
+            const daysRemaining = getDaysRemaining(task.datefin);
+            
+            let dateInfo = formattedDate;
+            if (!task.completed && daysRemaining !== null) {
+                if (daysRemaining < 0) {
+                    dateInfo += ` <span class="days-remaining overdue">(En retard de ${Math.abs(daysRemaining)} jour${Math.abs(daysRemaining) > 1 ? 's' : ''})</span>`;
+                } else if (daysRemaining === 0) {
+                    dateInfo += ' <span class="days-remaining today">(Aujourd\'hui)</span>';
+                } else {
+                    dateInfo += ` <span class="days-remaining">(Dans ${daysRemaining} jour${daysRemaining > 1 ? 's' : ''})</span>`;
+                }
+            }
 
-newTodoInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        const title = newTodoInput.value.trim();
-        if (title) {
-            addTask(title);
+            li.innerHTML = `
+                <div class="task-content">
+                    <span class="todo-title">${task.title}</span>
+                    <small class="task-date">📅 ${dateInfo}</small>
+                </div>
+                <div class="task-actions">
+                    ${task.completed ? 
+                        `<button class="action-btn restore-btn" title="Restaurer">↩</button>` : 
+                        `<button class="action-btn complete-btn" title="Marquer comme terminé">✓</button>`}
+                    <button class="action-btn delete-btn" title="Supprimer">×</button>
+                </div>
+            `;
+
+            if (task.completed) {
+                didList.appendChild(li);
+                li.querySelector('.restore-btn').addEventListener('click', () => restoreTask(task.id));
+            } else {
+                todoList.appendChild(li);
+                li.querySelector('.complete-btn').addEventListener('click', () => completeTask(task.id));
+            }
+            
+            li.querySelector('.delete-btn').addEventListener('click', () => deleteTask(task.id));
+            
+            setTimeout(() => {
+                li.classList.add('fade-in');
+            }, 10);
         }
-    }
-});
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchTasks();
-});
+        // Marquer une tâche comme terminée
+        async function completeTask(id) {
+            setLoading(true);
+            try {
+                const response = await fetch(`${API_URL}/tasks/${id}`, {
+                    method: 'PUT'
+                });
+                
+                if (!response.ok) throw new Error('Erreur lors de la mise à jour de la tâche');
+                
+                const updatedTask = await response.json();
+                
+                const index = tasks.findIndex(task => task.id === id);
+                if (index !== -1) {
+                    tasks[index] = updatedTask;
+                }
+                
+                const taskElement = document.querySelector(`li[data-id="${id}"]`);
+                if (taskElement) {
+                    taskElement.classList.add('completing');
+                    setTimeout(() => {
+                        renderTasks(tasks);
+                    }, 300);
+                } else {
+                    renderTasks(tasks);
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showErrorMessage('Impossible de marquer la tâche comme terminée');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Restaurer une tâche
+        async function restoreTask(id) {
+            setLoading(true);
+            try {
+                const response = await fetch(`${API_URL}/tasks/${id}/restore`, {
+                    method: 'PUT'
+                });
+                
+                if (!response.ok) throw new Error('Erreur lors de la restauration de la tâche');
+                
+                const updatedTask = await response.json();
+                
+                const index = tasks.findIndex(task => task.id === id);
+                if (index !== -1) {
+                    tasks[index] = updatedTask;
+                }
+                
+                renderTasks(tasks);
+            } catch (error) {
+                console.error('Erreur:', error);
+                showErrorMessage('Impossible de restaurer la tâche');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Supprimer une tâche
+        async function deleteTask(id) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')) {
+                return;
+            }
+            
+            setLoading(true);
+            try {
+                const response = await fetch(`${API_URL}/tasks/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) throw new Error('Erreur lors de la suppression de la tâche');
+                
+                tasks = tasks.filter(task => task.id !== id);
+                
+                const taskElement = document.querySelector(`li[data-id="${id}"]`);
+                if (taskElement) {
+                    taskElement.classList.add('removing');
+                    setTimeout(() => {
+                        renderTasks(tasks);
+                    }, 300);
+                } else {
+                    renderTasks(tasks);
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showErrorMessage('Impossible de supprimer la tâche');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Effacer toutes les tâches terminées
+        async function clearCompletedTasks() {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer toutes les tâches terminées ?')) {
+                return;
+            }
+            
+            setLoading(true);
+            try {
+                const completedIds = tasks.filter(task => task.completed).map(task => task.id);
+                
+                const promises = completedIds.map(id => 
+                    fetch(`${API_URL}/tasks/${id}`, { method: 'DELETE' })
+                );
+                
+                await Promise.all(promises);
+                
+                tasks = tasks.filter(task => !task.completed);
+                
+                renderTasks(tasks);
+            } catch (error) {
+                console.error('Erreur:', error);
+                showErrorMessage('Impossible de supprimer les tâches terminées');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Afficher un message d'erreur
+        function showErrorMessage(message) {
+            alert(message);
+        }
+
+        // Définir l'état de chargement
+        function setLoading(loading) {
+            isLoading = loading;
+            // Vous pouvez ajouter un indicateur de chargement ici si nécessaire
+        }
