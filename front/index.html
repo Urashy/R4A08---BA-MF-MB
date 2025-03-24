@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-container">
+        <h1>Ma Todo List</h1>
+        <button id="theme-toggle" class="theme-toggle"><span class="icon">🌙</span> Mode sombre</button>
+    </div>
+    
+    <div class="form-container">
+        <input type="text" id="new-todo" placeholder="Ajouter une nouvelle tâche...">
+        <button id="add-todo-btn">Ajouter</button>
+    </div>
+    
+    <div class="lists-container">
+        <div class="column">
+            <h2>À faire</h2>
+            <ul class="todo-list">
+                <!-- Les éléments de la todo list seront ajoutés ici -->
+            </ul>
+        </div>
+        
+        <div class="column">
+            <h2>Terminé</h2>
+            <ul class="did-list">
+                <!-- Les éléments terminés seront ajoutés ici -->
+            </ul>
+        </div>
+    </div>
+    
+    <script src="script.js" defer ></script>
+    <script src="main.js" defer></script>
+</body>
+</html>
