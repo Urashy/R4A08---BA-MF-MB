@@ -15,8 +15,8 @@ const pool = new Pool({
 });
 
 pool.connect()
-  .then(() => console.log("✅ Connecté à PostgreSQL"))
-  .catch(err => console.error("❌ Erreur de connexion :", err));
+  .then(() => console.log("Connecté à PostgreSQL"))
+  .catch(err => console.error("Erreur de connexion :", err));
 
 app.use(express.json());
 app.use(cors());
@@ -27,7 +27,7 @@ module.exports = pool;
 // Définir le chemin absolu vers le dossier "front"
 const frontPath = path.resolve(__dirname,'./front');
 
-console.log("📁 Chemin du front :", frontPath);
+console.log("Chemin du front :", frontPath);
 
 // Servir les fichiers statiques du dossier "front"
 app.use(express.static(frontPath));
@@ -44,5 +44,5 @@ app.get('*', (req, res) => {
 // Lancer le serveur
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
+    console.log(`Serveur lancé sur http://localhost:${PORT}`);
 });
