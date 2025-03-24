@@ -4,34 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233498db'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header-container">
-        <h1>Ma Todo List</h1>
-        <button id="theme-toggle" class="theme-toggle"><span class="icon">🌙</span> Mode sombre</button>
-    </div>
-    
-    <div class="form-container">
-        <input type="text" id="new-todo" placeholder="Ajouter une nouvelle tâche...">
-        <button id="add-todo-btn">Ajouter</button>
-    </div>
-    
-    <div class="lists-container">
-        <div class="column">
-            <h2>À faire</h2>
-            <ul class="todo-list">
-            </ul>
+    <div class="app-container">
+        <div class="header-container">
+            <h1>Ma Todo List</h1>
+            <button id="theme-toggle" class="theme-toggle"><span class="icon">🌙</span> Mode sombre</button>
         </div>
         
-        <div class="column">
-            <h2>Terminé</h2>
-            <ul class="did-list">
-            </ul>
+        <div class="form-container">
+            <div class="input-group">
+                <input type="text" id="new-todo" placeholder="Ajouter une nouvelle tâche..." aria-label="Nouvelle tâche">
+                <input type="date" id="new-date" aria-label="Date d'échéance">
+                <button id="add-todo-btn">Ajouter</button>
+            </div>
+        </div>
+        
+        <div class="lists-container">
+            <div class="column">
+                <div class="column-header">
+                    <h2>À faire</h2>
+                    <span class="task-count" id="todo-count">0</span>
+                </div>
+                <ul class="todo-list"></ul>
+            </div>
+            
+            <div class="column">
+                <div class="column-header">
+                    <h2>Terminé</h2>
+                    <span class="task-count" id="completed-count">0</span>
+                </div>
+                <ul class="did-list"></ul>
+                <button id="clear-completed-btn" class="clear-completed">Effacer les tâches terminées</button>
+            </div>
         </div>
     </div>
     
-    <script src="script.js" defer ></script>
     <script src="main.js" defer></script>
 </body>
 </html>
