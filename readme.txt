@@ -1,6 +1,8 @@
 ------------------------------------------------------
 |  Projet d'application de gestion de tâche à faire  |
 ------------------------------------------------------
+
+
 réalisé par :
 ► Berkan AKIN    ◄ 
 ► Mathis FRAPPIN ◄
@@ -13,33 +15,62 @@ réalisé par :
 
 → Avec Visual studio.
 
-    -Clonnez le dépôt dans le dossier souhaité
-        →Lien du GitHub : https://github.com/Urashy/R4A08---BA-MF-MB.git
+    -Clonez le dépôt dans le dossier souhaité
+        -Lien du GitHub : https://github.com/Urashy/R4A08---BA-MF-MB.git
 
-    -Ouvrez le terminal de commande de la barre des menus (en haut a gauche de l'application entre run et help):
-        →Terminal → New Terminal
+    -Ouvrez le terminal de commande à partir de la barre des menus (en haut à gauche de l'application, entre "Run" et "Help") :
+        - Terminal → New Terminal
 
-    -Entrez cette commande dans la console apparue (Dans le bas de l'applicaiton):
+    -Entrez cette commande dans la console apparue (en bas de l'application) :
         docker compose up -d
 
-    \o/ C'est bon votre application est lancé !! \o/
+    \o/ C'est bon, votre application est lancée !! \o/
 
-    -Pour y accéder copiez collez ce lien dans votre nivigateur : http://localhost:3001/
+    -Pour y accéder, copiez-collez ce lien dans votre navigateur  : http://localhost:3001/
 
-    
+
 
 → Sans Visual studio.
 
-    -Clonnez le dépôt dans le dossier souhaité
-        →Lien di GitHub : https://github.com/Urashy/R4A08---BA-MF-MB.git
-    -Ouvrez le terminal de commande de la barre des menus (en haut a gauche de l'application entre run et help):
-        →Terminal → New Terminal
-    -Entrez cette commande dans la console apparue (Dans le bas de l'applicaiton):
+
+    -Ouvrez une invite de commande et déplacez-vous dans le dossier souhaité.
+
+    -Clonez le dépôt :
+         git clone https://github.com/Urashy/R4A08---BA-MF-MB.git
+
+    -Déplacez-vous dedans :
+        cd R4A08---BA-MF-MB
+
+    -Lancez l'application :
         docker compose up -d
 
-    \o/ C'est bon votre application est lancé !! \o/
+    \o/ C'est bon, votre application est lancée !! \o/
 
-    -Pour y accéder copiez collez ce lien dans votre nivigateur : http://localhost:3001/
+    -Pour y accéder, copiez-collez ce lien dans votre navigateur  : http://localhost:3001/
+
+
+---------------------------------
+|  Descriptif de l'application  |
+---------------------------------
+
+L'application a 2 principales fonctions :
+
+
+1. L'ajout de tâches a faire            |
+----------------------------------------|
+
+    À l'aide du champ "Ajouter une nouvelle tâche", vous pouvez entrer la tâche que vous devez faire.
+    Une fois qu'elle vous convient, il suffit de cliquer sur le bouton "Ajouter" et la tâche apparaîtra dans la liste des tâches à faire.
 
 
 
+2. Validation ou suppression de tâches  |
+----------------------------------------|
+
+   → Validation d'une tâche
+        À l'aide du bouton vert à côté de votre tâche, vous pouvez valider votre tâche.
+        Elle passera donc dans la colonne "Terminé".
+
+    → Suppression d'une tâche
+        À l'aide du bouton rouge à côté de votre tâche, vous pouvez supprimer votre tâche.
+        
