@@ -9,7 +9,23 @@ const pool = new Pool({
 });
 
 pool.connect()
-  .then(() => console.log("✅ Connecté à PostgreSQL !"))
+  .then(() => console.log("Connecté à PostgreSQL"))
   .catch(err => console.error("❌ Erreur de connexion :", err));
 
 module.exports = pool;
+
+const express = require('express');
+const app = express();
+const tasksRoutes = require('./routes/task');
+const cors = require('cors');
+
+app.use(express.json());
+app.use(cors());
+
+// Routes
+app.use('/api', tasksRoutes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Serveur lancé sur http://localhost:${PORT}`);
+});

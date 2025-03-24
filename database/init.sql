@@ -1,23 +1,21 @@
-CREATE TABLE TodoList (
-    idlist SERIAL PRIMARY KEY,          
-    NomTache VARCHAR(255) NOT NULL,   
-    EstFini BOOLEAN DEFAULT FALSE,
-    CONSTRAINT pk_todo_list PRIMARY KEY (id)
+CREATE TABLE tasks (
+    id SERIAL PRIMARY KEY,          
+    title VARCHAR(255) NOT NULL,   
+    completed BOOLEAN DEFAULT FALSE
 );
 
-
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (1, 'Faire le ménage', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (2, 'Créer la base de données', true);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (3, 'Acheter des chips chèvre piment d Espelette', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (4, 'Appeler ma mère', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (5, 'Préparer le Iftar', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (6, 'Finir les contrôleurs de la SAE', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (7, 'Ranger ma chambre', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (8, 'Faire la vaisselle', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (9, 'Arrêter le Redbull dès 8h du matin', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (10, 'Trouver un stage', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (11, 'Répondre à mes mails', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (12, 'Acheter une oie sur Amazon', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (13, 'Jen ai aucune idée (Berkan)', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (14, 'Préparer les vacances', false);
-INSERT INTO TodoList (idlist, NomTache, EstFini) VALUES (15, 'Gadget émérie', false);
+INSERT INTO tasks (title, completed) VALUES ('Faire le ménage', false);
+INSERT INTO tasks (title, completed) VALUES ('Créer la base de données', true);
+INSERT INTO tasks (title, completed) VALUES ('Acheter des chips chèvre piment d''Espelette', false);
+INSERT INTO tasks (title, completed) VALUES ('Appeler ma mère', false);
+INSERT INTO tasks (title, completed) VALUES ('Préparer le Iftar', false);
+INSERT INTO tasks (title, completed) VALUES ('Finir les contrôleurs de la SAE', false);
+INSERT INTO tasks (title, completed) VALUES ('Ranger ma chambre', false);
+INSERT INTO tasks (title, completed) VALUES ('Faire la vaisselle', false);
+INSERT INTO tasks (title, completed) VALUES ('Arrêter le Redbull dès 8h du matin', false);
+INSERT INTO tasks (title, completed) VALUES ('Trouver un stage', false);
+INSERT INTO tasks (title, completed) VALUES ('Répondre à mes mails', false);
+INSERT INTO tasks (title, completed) VALUES ('Acheter une oie sur Amazon', false);
+INSERT INTO tasks (title, completed) VALUES ('J en ai aucune idée (Berkan)', false);
+INSERT INTO tasks (title, completed) VALUES ('Préparer les vacances', false);
+INSERT INTO tasks (title, completed) VALUES ('Gadget éméri', false);
