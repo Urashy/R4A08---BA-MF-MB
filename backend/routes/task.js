@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config.js');
 
+// récupération des tâches via commande sql
 router.get('/tasks', async (req, res) => {
     try {
         const result = await pool.query(`

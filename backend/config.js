@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 
 const pool = new Pool({
-  host: process.env.DB_HOST || 'database',  // ✅ Utilise "database" (nom du service dans docker-compose.yml)
+  host: process.env.DB_HOST || 'database',  // Utilise "database" (nom du service dans docker-compose.yml)
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'todo_db',
@@ -39,6 +39,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(frontPath, 'index.html'));
 });
 
+// attributtion du port (voir avec le fichier yml)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur http://localhost:${PORT}`);

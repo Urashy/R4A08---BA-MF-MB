@@ -1,5 +1,7 @@
+        // Config de l'API
         const API_URL = 'http://localhost:3001/api';
 
+        // Sélect pour l'affichage
         const todoList = document.querySelector('.todo-list');
         const didList = document.querySelector('.did-list');
         const newTodoInput = document.getElementById('new-todo');
@@ -11,7 +13,7 @@
         let isLoading = false;
         let tasks = [];
 
-
+        // Initialisation de l'app
         document.addEventListener('DOMContentLoaded', () => {
             fetchTasks();
             setMinDate();
@@ -34,7 +36,7 @@
             clearCompletedBtn.addEventListener('click', clearCompletedTasks);
         });
 
-
+        
         function setMinDate() {
             const today = new Date().toISOString().split('T')[0];
             newDateInput.min = today;
@@ -49,7 +51,7 @@
             }
         }
 
-
+        // Changement du theme
         function toggleTheme() {
             const isDarkMode = document.body.classList.toggle('dark-theme');
             localStorage.setItem('darkMode', isDarkMode);
@@ -61,6 +63,7 @@
             }
         }
 
+        
         async function fetchTasks() {
             setLoading(true);
             try {
