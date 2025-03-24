@@ -19,7 +19,7 @@ réalisé par :
         -Lien du GitHub : https://github.com/Urashy/R4A08---BA-MF-MB.git
 
     -Ouvrez le terminal de commande à partir de la barre des menus (en haut à gauche de l'application, entre "Run" et "Help") :
-        - Terminal → New Terminal
+        - Terminal → New Terminal et placez-vous dans le dossier souhaité.
 
     -Entrez cette commande dans la console apparue (en bas de l'application) :
         docker compose up -d
