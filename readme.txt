@@ -53,13 +53,24 @@ réalisé par :
 |  Descriptif de l'application  |
 ---------------------------------
 
+  |
+  |-----------------------
+  |  Frontend :        |
+  |      HTML CSS JS   |
+  |  Backend :         |
+  |      Docker        |
+  |  Base de donnée :  |
+  |      Postgres SQL  |
+-----------------------|
+                       |
+
 L'application a 2 principales fonctions :
 
 
 1. L'ajout de tâches a faire            |
 ----------------------------------------|
 
-    À l'aide du champ "Ajouter une nouvelle tâche", vous pouvez entrer la tâche que vous devez faire.
+    À l'aide du champ "Ajouter une nouvelle tâche", vous pouvez entrer la tâche que vous devez faire ainsi que la date butoir.
     Une fois qu'elle vous convient, il suffit de cliquer sur le bouton "Ajouter" et la tâche apparaîtra dans la liste des tâches à faire.
 
 
@@ -70,6 +81,8 @@ L'application a 2 principales fonctions :
    → Validation d'une tâche
         À l'aide du bouton vert à côté de votre tâche, vous pouvez valider votre tâche.
         Elle passera donc dans la colonne "Terminé".
+
+        /!\ Si vous vous êtes trompé, vous pouvez toujours remettre la tâche en "A faire" à l'aide du bouton : "↩" /!\
 
     → Suppression d'une tâche
         À l'aide du bouton rouge à côté de votre tâche, vous pouvez supprimer votre tâche.
