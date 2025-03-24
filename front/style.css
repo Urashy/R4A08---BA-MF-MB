@@ -1,7 +1,7 @@
 
-        /* Variables pour les deux thèmes */
+
         :root {
-            /* Thème clair (défaut) */
+
             --bg-color: #ffffff;
             --text-color: #333333;
             --title-color: #2c3e50;
@@ -16,7 +16,6 @@
             --shadow: rgba(0, 0, 0, 0.1);
         }
 
-        /* Classe pour le thème sombre */
         .dark-theme {
             --bg-color: #121212;
             --text-color: #e0e0e0;
@@ -119,7 +118,6 @@
             border-radius: 0 4px 4px 0;
         }
 
-        /* Mise en page à deux colonnes */
         .lists-container {
             display: flex;
             justify-content: space-between;
@@ -230,7 +228,6 @@
             background: var(--primary-btn);
         }
 
-        /* Priority colors */
         .priority-high {
             border-left: 4px solid #e74c3c;
         }
@@ -278,7 +275,7 @@
             border-radius: 4px;
         }
 
-        /* Animations */
+
         .fade-in {
             animation: fadeIn 0.3s ease;
         }
@@ -297,7 +294,7 @@
             to { opacity: 0; transform: translateY(-10px); }
         }
 
-        /* Responsive */
+
         @media (max-width: 768px) {
             .lists-container {
                 flex-direction: column;
